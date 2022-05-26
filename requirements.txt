@@ -18,6 +18,7 @@ DEBUG = os.environ['DEBUG']
 genie_key = os.environ['OPSGENIE']
 
 
+
 class switch:
     def __init__(self, id, nombre, obj):
         self.id = id
