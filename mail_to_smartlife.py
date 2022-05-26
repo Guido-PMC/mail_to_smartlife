@@ -74,9 +74,9 @@ def checkEmail(my_email,my_pass):
 def getRigsFromMail(list_mails):
     list_rigs=[]
     for body in list_mails:
-        for m in re.finditer('Last', body):
+        for m in re.finditer('.p', body):
             index = m.start()
-            string = body[index-7]+body[index-6]+body[index-5]+body[index-4]+body[index-3]
+            string = body[index]+body[index+1]+body[index+2]+body[index+3]+body[index+4]
             list_rigs.append(string)
             print('RIG CON ERROR: ',string)
     return list_rigs
@@ -116,4 +116,5 @@ while True:
         else:
             print("Error Rebooteando RIG:")
             print(name)
+            opsgenie("Error rebooteando RIG: "+str(name))
     time.sleep(10)
