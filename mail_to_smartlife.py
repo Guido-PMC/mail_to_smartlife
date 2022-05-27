@@ -102,13 +102,13 @@ while True:
 
     list_mails = checkEmail(my_email,my_pass)
     if (DEBUG=="YES"):
-        if(list_mails.keys()!=[]):
+        if(list_mails!=[]):
             print("lista mails --------")
             print(list_mails)
 
     error_rigs_list = getRigsFromMail(list_mails)
     if (DEBUG=="YES"):
-        if(error_rigs_list.keys()!=[]):
+        if(error_rigs_list!=[]):
             print("lista rigs --------")
             print(error_rigs_list)
 
