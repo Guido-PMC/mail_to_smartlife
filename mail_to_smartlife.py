@@ -34,9 +34,6 @@ def opsgenie(message):
 
 def rebootByName(list_devices,name):
         try:
-            print(name)
-            name = name.upper()
-            print(name)
             list_devices[name].turn_off()
             time.sleep(10)
             list_devices[name].turn_on()
@@ -82,7 +79,7 @@ def getRigsFromMail(list_mails):
             index = m.start()
             string = body[index+1]+body[index+2]+body[index+3]+body[index+4]+body[index+5]
             list_rigs.append(string.upper())
-            print('RIG CON ERROR: ',string)
+            print('RIG CON ERROR: ',string.upper())
     return list_rigs
 
 def update_list_smartlife():
