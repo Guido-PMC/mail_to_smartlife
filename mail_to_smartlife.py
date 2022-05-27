@@ -74,7 +74,7 @@ def checkEmail(my_email,my_pass):
 def getRigsFromMail(list_mails):
     list_rigs=[]
     for body in list_mails:
-        for m in re.finditer('\.\*\*p', body):
+        for m in re.finditer('\.p', body):
             index = m.start()
             string = body[index+3]+body[index+4]+body[index+5]+body[index+6]+body[index+7]
             list_rigs.append(string)
