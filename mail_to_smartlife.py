@@ -81,7 +81,7 @@ def getRigsFromMail(list_mails):
         for m in re.finditer('\.p', body):
             index = m.start()
             string = body[index+1]+body[index+2]+body[index+3]+body[index+4]+body[index+5]
-            list_rigs.append(string)
+            list_rigs.append(string.upper())
             print('RIG CON ERROR: ',string)
     return list_rigs
 
