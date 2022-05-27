@@ -34,7 +34,7 @@ def opsgenie(message):
 
 def rebootByName(list_devices,name):
         try:
-            name = upper(name)
+            name = name.upper()
             list_devices[name].turn_off()
             time.sleep(10)
             list_devices[name].turn_on()
