@@ -77,7 +77,7 @@ def getRigsFromMail(list_mails):
         body = body.replace("*","")
         for m in re.finditer('\.p', body):
             index = m.start()
-            string = body[index+3]+body[index+4]+body[index+5]+body[index+6]+body[index+7]
+            string = body[index+1]+body[index+2]+body[index+3]+body[index+4]+body[index+5]
             list_rigs.append(string)
             print('RIG CON ERROR: ',string)
     return list_rigs
@@ -96,18 +96,21 @@ schedule.every().day.at("00:00").do(update_list_smartlife)
 while True:
     schedule.run_pending()
     if (DEBUG=="YES"):
-        print("lista devices----")
-        print(list_devices.keys())
+        if(list_devices.keys()!=[]):
+            print("lista devices----")
+            print(list_devices.keys())
 
     list_mails = checkEmail(my_email,my_pass)
     if (DEBUG=="YES"):
-        print("lista mails --------")
-        print(list_mails)
+        if(list_mails.keys()!=[]):
+            print("lista mails --------")
+            print(list_mails)
 
     error_rigs_list = getRigsFromMail(list_mails)
     if (DEBUG=="YES"):
-        print("lista rigs --------")
-        print(error_rigs_list)
+        if(error_rigs_list.keys()!=[]):
+            print("lista rigs --------")
+            print(error_rigs_list)
 
     for name in error_rigs_list:
         if rebootByName(list_devices,name):
