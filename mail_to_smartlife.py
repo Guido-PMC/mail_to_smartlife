@@ -37,6 +37,7 @@ def rebootByName(list_devices,name):
             list_devices[name].turn_off()
             time.sleep(10)
             list_devices[name].turn_on()
+            time.sleep(240)
             return True
         except Exception as e:
             print("Excepcion en Reboot: ")

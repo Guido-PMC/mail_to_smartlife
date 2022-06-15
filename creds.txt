@@ -1,0 +1,4 @@
+my_email = "alertasPilarMiningCo@gmail.com"
+my_pass2 = "S3cur3P4ss!23"
+my_pass = "qdgyzmgwnyuzgaah"
+CODIGO RECUPERACION = qdgyzmgwnyuzgaah
