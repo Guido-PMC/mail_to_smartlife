@@ -76,11 +76,13 @@ def getRigsFromMail(list_mails):
     list_rigs=[]
     for body in list_mails:
         body = body.replace("*","")
-        for m in re.finditer('\.p', body):
-            index = m.start()
-            string = body[index+1]+body[index+2]+body[index+3]+body[index+4]+body[index+5]
-            list_rigs.append(string.upper())
-            print('RIG CON ERROR: ',string.upper())
+        tuple = ("p","a","b","c","d")
+        for letter in tuple:
+            for m in re.finditer(f"\.{letter}", body):
+                index = m.start()
+                string = body[index+1]+body[index+2]+body[index+3]+body[index+4]+body[index+5]
+                list_rigs.append(string.upper())
+                print('RIG CON ERROR: ',string.upper())
     return list_rigs
 
 def update_list_smartlife():
