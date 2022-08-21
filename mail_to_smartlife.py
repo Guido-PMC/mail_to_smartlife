@@ -66,14 +66,19 @@ def list_SmartLifeObjs():
 
 
 def checkEmail(my_email,my_pass):
-    list_mails=[]
-    monitor.ping(state='run')
-    mailbox =  MailBox('imap.gmail.com').login(my_email, my_pass )
-    for msg in mailbox.fetch(A(seen=False)):
-        print("NEW MAIL")
-        monitor.ping(state='complete')
-        list_mails.append(msg.text)
-    mailbox.logout()
+    try:
+        list_mails=[]
+        monitor.ping(state='run')
+        mailbox =  MailBox('imap.gmail.com').login(my_email, my_pass )
+        if not mailbox:
+            monitor.ping(state='complete')
+        for msg in mailbox.fetch(A(seen=False)):
+            print("NEW MAIL")
+            monitor.ping(state='complete')
+            list_mails.append(msg.text)
+        mailbox.logout()
+    except Exception as e:
+        monitor.ping(state='fail')
     return list_mails
 
 
