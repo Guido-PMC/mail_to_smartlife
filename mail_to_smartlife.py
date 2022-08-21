@@ -64,7 +64,6 @@ def list_SmartLifeObjs():
             time.sleep(10)
     return list_devices
 
-def logMail():
 
 def checkEmail(my_email,my_pass):
     list_mails=[]
