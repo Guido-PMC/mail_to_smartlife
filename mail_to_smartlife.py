@@ -8,14 +8,17 @@ import re
 from tuyapy import TuyaApi
 import time
 import schedule
+import cronitor
 
 list_devices = []
 # account credentials
 
+cronitor.api_key = os.environ['CRONITOR']
 my_email = os.environ['MAIL']
 my_pass = os.environ['PASS']
 DEBUG = os.environ['DEBUG']
 genie_key = os.environ['OPSGENIE']
+monitor = cronitor.Monitor('D9XpQJ')
 
 
 class switch:
@@ -61,12 +64,15 @@ def list_SmartLifeObjs():
             time.sleep(10)
     return list_devices
 
+def logMail():
 
 def checkEmail(my_email,my_pass):
     list_mails=[]
+    monitor.ping(state='run')
     mailbox =  MailBox('imap.gmail.com').login(my_email, my_pass )
     for msg in mailbox.fetch(A(seen=False)):
         print("NEW MAIL")
+        monitor.ping(state='complete')
         list_mails.append(msg.text)
     mailbox.logout()
     return list_mails
@@ -97,31 +103,34 @@ update_list_smartlife()
 schedule.every().day.at("00:00").do(update_list_smartlife)
 
 while True:
-    schedule.run_pending()
-    if (DEBUG=="YES"):
-        if(list_devices.keys()!=[]):
-            print("lista devices----")
-            print(list_devices.keys())
+    try:
+        schedule.run_pending()
+        if (DEBUG=="YES"):
+            if(list_devices.keys()!=[]):
+                print("lista devices----")
+                print(list_devices.keys())
 
-    list_mails = checkEmail(my_email,my_pass)
-    if (DEBUG=="YES"):
-        if(list_mails!=[]):
-            print("lista mails --------")
-            print(list_mails)
+        list_mails = checkEmail(my_email,my_pass)
+        if (DEBUG=="YES"):
+            if(list_mails!=[]):
+                print("lista mails --------")
+                print(list_mails)
 
-    error_rigs_list = getRigsFromMail(list_mails)
-    if (DEBUG=="YES"):
-        if(error_rigs_list!=[]):
-            print("lista rigs --------")
-            print(error_rigs_list)
+        error_rigs_list = getRigsFromMail(list_mails)
+        if (DEBUG=="YES"):
+            if(error_rigs_list!=[]):
+                print("lista rigs --------")
+                print(error_rigs_list)
 
-    for name in error_rigs_list:
-        if rebootByName(list_devices,name):
-            print("Rig Rebooteado Correctamente: ")
-            print(name)
-            opsgenie("Rebootiado RIG: "+str(name)+", por favor revisar. Automatismo PMC")
-        else:
-            print("Error Rebooteando RIG:")
-            print(name)
-            opsgenie("Error rebooteando RIG: "+str(name))
-    time.sleep(10)
+        for name in error_rigs_list:
+            if rebootByName(list_devices,name):
+                print("Rig Rebooteado Correctamente: ")
+                print(name)
+                opsgenie("Rebootiado RIG: "+str(name)+", por favor revisar. Automatismo PMC")
+            else:
+                print("Error Rebooteando RIG:")
+                print(name)
+                opsgenie("Error rebooteando RIG: "+str(name))
+        time.sleep(10)
+    except Exception as e:
+        monitor.ping(state='fail')
